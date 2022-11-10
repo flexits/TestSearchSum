@@ -159,6 +159,20 @@ namespace TaskSearchTest
         }
 
         [TestMethod]
+        public void SearchFromStartToMiddle()
+        {
+            var list = new List<uint> { 0, 1, 2, 3, 4, 5, 6, 7 };
+            ulong sum = 3;
+            //start будет равен 0 и end 3
+
+            new Searcher().FindElementsForSum(
+                list, sum, out int start, out int end);
+
+            Assert.AreEqual(0, start, "Start must be 0");
+            Assert.AreEqual(3, end, "End must be 3");
+        }
+
+        [TestMethod]
         public void SearchInTwoParts()
         {
             var list = new List<uint> { 0, 1, 2, 333, 4, 5, 6, 7, 8 };
@@ -173,64 +187,61 @@ namespace TaskSearchTest
         }
 
         [TestMethod]
-        public void Search1MList()
+        public void NoMatchIn1MList()
         {
             int length = 1000000;
             var list = new List<uint>(length);
             var rand = new Random();
             for (int count = length; count > 0; count--)
             {
-                list.Add((uint)rand.Next()+1);
+                list.Add((uint)rand.Next(1, int.MaxValue));
             }
-            //takes 18ms
+            
             ulong sum = 0;
             //as all items are > 0, the sum will not be found
 
             new Searcher().FindElementsForSum(
                 list, sum, out int start, out int end);
-            //takes 46-18 = 28ms
 
             Assert.AreEqual(0, start, "Start must be 0");
             Assert.AreEqual(0, end, "End must be 0");
         }
 
         [TestMethod]
-        public void Search3MList()
+        public void NoMatchIn3MList()
         {
             int length = 3000000;
             var list = new List<uint>(length);
             var rand = new Random();
             for (int count = length; count > 0; count--)
             {
-                list.Add((uint)rand.Next() + 1);
+                list.Add((uint)rand.Next(1, int.MaxValue));
             }
-            //takes 43ms
+            
             ulong sum = 0;
 
             new Searcher().FindElementsForSum(
                 list, sum, out int start, out int end);
-            //takes 84-43 = 41ms
 
             Assert.AreEqual(0, start, "Start must be 0");
             Assert.AreEqual(0, end, "End must be 0");
         }
 
         [TestMethod]
-        public void Search10MList()
+        public void NoMatchIn10MList()
         {
             int length = 10000000;
             var list = new List<uint>(length);
             var rand = new Random();
             for (int count = length; count > 0; count--)
             {
-                list.Add((uint)rand.Next() + 1);
+                list.Add((uint)rand.Next(1, int.MaxValue));
             }
-            //takes 137ms
+            
             ulong sum = 0;
 
             new Searcher().FindElementsForSum(
                 list, sum, out int start, out int end);
-            //takes 283-137 = 146ms
 
             Assert.AreEqual(0, start, "Start must be 0");
             Assert.AreEqual(0, end, "End must be 0");
